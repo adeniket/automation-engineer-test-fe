@@ -2,62 +2,80 @@
 This document outlines the test strategy, architecture, and execution steps for the Frontend UI Automation project. The framework is built using Cypress for end-to-end (E2E) testing and integrates with GitHub Actions for Continuous Integration.
 
 # 1. Getting Started
-Prerequisites
-Node.js (Latest Stable Version)
-
-npm (Node Package Manager)
+# 1. Getting Started
+## Prerequisites
+- Node.js (v22+)
+- npm
 
 ## Installation
-Clone the repository and install the project dependencies:
-
-```
-Bash
+Clone the repository and install dependencies:
+```bash
 npm install
 ```
 
 ## Running Tests Locally
-You can execute the tests in two modes:
+We rely on a **Live Backend** strategy for running frontend tests. This ensures tests run against a stable API without needing to seed a local database.
 
-### 1. Interactive Mode (Test Runner) Opens the Cypress UI to visually debug and run specific spec files.
+### 1. Start the App (Live Backend)
+You must start the frontend with the `VITE_API_BASE_URL` pointing to the live instance:
+```powershell
+# PowerShell
+$env:VITE_API_BASE_URL="https://automation-engineer-test-be.onrender.com/api"; $env:VITE_DISABLE_API_CACHING="true"; npm run dev
 
+# Bash
+VITE_API_BASE_URL=https://automation-engineer-test-be.onrender.com/api VITE_DISABLE_API_CACHING=true npm run dev
 ```
-Bash
+
+### 2. Run Cypress
+In a separate terminal:
+
+**Interactive Mode:**
+```bash
 npx cypress open
 ```
-### 2. Headless Mode (CI Simulation) Runs all tests in the terminal, similar to how they run in the CI environment.
 
-```
-Bash
+**Headless Mode:**
+```bash
 npx cypress run
 ```
+
 ### Reporting
-The project uses Allure for test reporting. To generate and view the report after a run:
-```
-Bash
+The project uses Allure for reporting.
+1. Tests generate JSON results in `allure-results/`.
+2. Generate the HTML report:
+```bash
 npx allure-commandline generate allure-results --clean --single-file --output ./cypress/report
 ```
+3. Open the report: `cypress/report/index.html` (or serve directly via `npx allure-commandline serve allure-results`).
+**Reference:** Test results are stored in `automation-engineer-test-fe\allure-results\`.
 # 2. CI/CD Pipeline Configuration
 
-The Continuous Integration pipeline is defined in .github/workflows/frontend.yml. It ensures that every Pull Request is automatically tested before merging.
+The Continuous Integration pipeline is defined in `.github/workflows/frontend.yml`. It automatically tests every Pull Request.
 
-***Trigger:*** The pipeline activates on pull_request events targeting the branches: - frontendSetup.
+***Trigger:*** Pull Requests to `main` or `master`.
 
-***Environment:*** Runs on ubuntu-latest.
+***Environment:*** `ubuntu-latest`.
 
 ### Pipeline Steps
-***Checkout:*** Pulls the latest code using actions/checkout@v3.
-
-***Install Dependencies:*** Runs npm install to set up the environment.
-
-***Test Execution:*** Executes the full suite via npx cypress run.
-
-***Report Generation:*** Generates a single-file Allure report, ensuring it runs even if tests fail (if: always()).
-
-***Artifact Upload:*** Uploads the test report to GitHub Artifacts for review.
+1. **Checkout:** Pulls the code.
+2. **Install Dependencies:** `npm install` (installs Cypress and Allure).
+3. **Test Execution:** `npx cypress run`
+    - **Crucial:** Injects `VITE_API_BASE_URL` pointing to the live Render backend.
+    - Sets `VITE_DISABLE_API_CACHING=true` to ensure data freshness.
+4. **Report Generation:** Generates Allure report to `./cypress/report`.
+5. **Artifact Upload:** Uploads report as `allure-reports`.
 
 # 3. Key Design Decisions
-## Page Object Model (POM)
-We utilize the Page Object Model design pattern to separate test logic (assertions) from page details (selectors). This enhances maintainability and reduces code duplication.
+
+## 1. Local Frontend + Live Backend Strategy
+Instead of mocking all APIs or spinning up a complex local backend, we connect the CI frontend to the persistent **Live Backend**.
+- **Pros:** Real Integration Testing, Faster CI setup.
+- **Cons:** Shared data state.
+- **Mitigation:** Tests generate **unique data** (e.g., unique emails for registration) to avoid "User already exists" errors.
+
+## 2. Page Object Model (POM)
+(Preserved from original)
+We utilize the Page Object Model design pattern...
 
 * **LoginPage.js:** Encapsulates interactions for the Login UI. It includes methods for actions (enterEmail, clickLoginButton) and specific element verifications (verifySuccessMessage, getLogoutButton).
 
@@ -120,3 +138,22 @@ Smoke tests for the initial user interface.
 
 ## E. Logout Flow (logout.cy.js)
 Redirection: Confirms that clicking logout redirects the user back to /login and renders the login button visible again.
+
+# 5. Recommendations & Observations
+
+## Observations
+1. **Non-Unique Element Locators:**
+   - **Issue:** Many tests rely on generic CSS classes (e.g., `.text-red-700`, `.max-w-6xl`) or text content.
+   - **Impact:** Tests are brittle and susceptible to breaking when styles or copy change. It makes identifying specific elements difficult.
+
+
+## Recommendations
+1. **Implement `data-testid` Attributes:**
+   - Add unique `data-testid` attributes to all interactive elements (inputs, buttons) and critical containers (error messages).
+   - *Example:* `<button data-testid="login-submit">Login</button>` instead of `cy.get('button[type="submit"]')`.
+
+2. **Dedicated Test Environment:**
+   - Ideally, run tests against a dedicated ephemeral backend or a seeded staging environment where data can be reset after each run.
+
+3. **Robust Error Handling:**
+   - Ensure backend error messages are consistent (e.g., distinguishing between "User not found" and "Wrong password" vs generic security messages) and handle them gracefully in the UI.

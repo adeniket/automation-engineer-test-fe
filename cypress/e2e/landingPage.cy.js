@@ -1,16 +1,16 @@
 import LandingPage from "../support/pages/landingPage";
 describe('Landing Page Tests', () => {
-    beforeEach(() => {
-      cy.visit('');
-    });
-  
+  beforeEach(() => {
+    cy.visit('');
+  });
+
   it('Verify All Element Exist on the Landing Page', () => {
     // Assert that all elements are present
-    LandingPage.verifyAllElementsExist().should ('exist');
+    LandingPage.verifyAllElementsExist().should('exist');
   })
   it('Verify user is on landing page', () => {
     // Assert that URL is correct
-    cy.url().should('eq', 'http://localhost:5173/login')
+    cy.url().should('include', '/login')
   })
   it('Logo is visible', () => {
     // Assert that logo is visible
