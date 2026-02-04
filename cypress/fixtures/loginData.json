@@ -8,8 +8,8 @@
         "password": "StrongPass123!"
     },
     "invalidlogin": {
-        "email": "worker_749@example.com",
-        "password": "Password123"
+        "email": "testUser1@example.com",
+        "password": "WrongPassword123!"
     },
     "unregisteredUser": {
         "email": "invalid@example.com",
