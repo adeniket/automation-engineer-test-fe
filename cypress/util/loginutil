@@ -1,0 +1,18 @@
+import loginpage from '../support/pages/loginpage'
+import loginData from '../fixtures/loginData.json'
+class loginutil{
+    login(condition){
+        switch(condition){
+            case 'valid':
+               loginpage.login(loginData.validloginWorker.email, loginData.validloginWorker.password)
+               break
+            case 'invalid':
+                loginpage.login(loginData.invalidlogin.email, loginData.invalid.password)
+                break
+                default:
+                    throw new Error('Invalid login condition')
+            
+        }
+    }
+}
+export default new loginutil()
