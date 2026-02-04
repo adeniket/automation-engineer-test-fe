@@ -1,4 +1,4 @@
-import loginpage from '../support/pages/loginpage'
+import loginpage from '../support/pages/LoginPage'
 import loginData from '../fixtures/loginData.json'
 class loginutil{
     login(condition){
