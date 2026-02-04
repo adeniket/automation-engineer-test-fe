@@ -10,9 +10,14 @@ jobs:
          - name: Checkout Repository
            uses: actions/checkout@v3
          - name: install dependencies
-           run: npm install                  
-         - name: Run tests
-           run: npx cypress run
+           run: npm install  
+         - name: Cypress run
+           uses: cypress-io/github-action@v6
+           with:
+             start: npm run dev
+             wait-on: 'http://localhost:5173/login'                
+            #  - name: Run tests
+            #    run: npx cypress run
          - name: Generate Allure Report
            if: always()
            run: npx allure-commandline generate allure-results --clean --single-file --output ./cypress/report
