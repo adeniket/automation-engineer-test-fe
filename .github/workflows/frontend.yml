@@ -15,7 +15,10 @@ jobs:
            uses: cypress-io/github-action@v6
            with:
              start: npm run dev
-             wait-on: 'http://localhost:5173/login'                
+             wait-on: 'http://localhost:5173/login' 
+           env:
+              VITE_API_BASE_URL: https://automation-engineer-test-be.onrender.com/api
+              VITE_DISABLE_API_CACHING: true
             #  - name: Run tests
             #    run: npx cypress run
          - name: Generate Allure Report
