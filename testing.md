@@ -1,6 +1,4 @@
- ## Here is a comprehensive  documentation file for the project. It covers the setup, architecture, and strategy based on the code provided.
-
- ## Frontend UI Automation Documentation
+## Frontend UI Automation Documentation
 This document outlines the test strategy, architecture, and execution steps for the Frontend UI Automation project. The framework is built using Cypress for end-to-end (E2E) testing and integrates with GitHub Actions for Continuous Integration.
 
 # 1. Getting Started

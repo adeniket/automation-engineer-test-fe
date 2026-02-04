@@ -1,4 +1,4 @@
-name: Capstone-Project
+name: Assesment Frontend Automation
 on:
    pull_request:
        branches:
@@ -12,7 +12,7 @@ jobs:
          - name: Checkout Repository
            uses: actions/checkout@v3
          - name: install dependencies
-           run: npm install
+           run: npm installo66o                   
          - name: Run tests
            run: npx cypress run
          - name: Generate Allure Report
