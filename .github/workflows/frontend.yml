@@ -1,8 +1,8 @@
 name: Capstone-Project
 on:
-   push:
-    branches:
-      - main
+   pull_request:
+     branches:
+      - frontendSetup    
 jobs:
     build:
         name: automation-engineer-test-fe
