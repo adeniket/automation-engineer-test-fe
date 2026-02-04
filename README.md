@@ -68,6 +68,7 @@ The application follows a component-based architecture, with a clear separation 
 - npm
 - Git
 - Orta Backend Server
+- **Testing Documentation**: See [TESTING.md](TESTING.md) for detailed instructions on running tests locally, CI configuration, and architectural decisions.
 
 ### Installation
 1. Clone the repository:
