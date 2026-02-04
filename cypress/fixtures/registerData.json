@@ -1,0 +1,26 @@
+{
+  "validUser": {
+    "name": "valid user",
+    "email": "demo@example.com",
+    "password": "Password123!",
+    "confirmPassword": "Password123!"
+  },
+  "unmatchedPassword": {
+    "name": "first user ",
+    "email": "first@example.com",
+    "password": "demo",
+    "confirmPassword": "demo123"
+  },
+  "unregisteredUser": {
+    "name": "first user ",
+    "email": "unregisterd@example.com",
+    "password": "Password123!",
+    "confirmPassword": "Password123!"
+  },
+   "invalidPasswordLength": {
+    "name": "first user ",
+    "email": "unregisterd@example.com",
+    "password": "Pass",
+    "confirmPassword": "Pass"
+  }
+}

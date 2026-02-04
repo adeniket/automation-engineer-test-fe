@@ -1,0 +1,25 @@
+Part 3: Frontend UI Automation
+Tooling
+Cypress OR Playwright
+Required UI Tests
+1. User Registration
+  - Valid registration
+  - Validation errors
+2. User Login
+  - Valid credentials
+  - Invalid credentials
+  - Error messages
+3. Auth State
+  - Token persistence
+  - Redirect behavior for unauthenticated users
+Optional Bonus:
+  - Logout behavior
+
+UI Automation Expectations
+Page Object Model (or equivalent)
+Stable selectors (no brittle CSS chains)
+Clear assertions
+Reusable commands/helpers
+
+
+

@@ -1,0 +1,19 @@
+{
+    "validloginWorker": {
+        "email": "worker_flow_812@example.com",
+        "password": "Password123!"
+},
+    "validloginAdmin": {
+        "email": "worker_749@example.com",
+        "password": "Password123!"
+},
+    "invalidlogin": {
+        "email": "worker_749@example.com",
+        "password": "Password123"
+},
+ "unregisteredUser": {
+        "email": "invalid@example.com",
+        "password": "Password123!"
+}
+
+}
