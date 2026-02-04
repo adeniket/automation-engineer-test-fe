@@ -1,9 +1,7 @@
 name: Assesment Frontend Automation
 on:
    pull_request:
-       branches:
-       - frontendSetup
-   workflow_dispatch:        
+        branches: [ main, master ]
 jobs:
     build:
         name: automation-engineer-test-fe
@@ -12,7 +10,7 @@ jobs:
          - name: Checkout Repository
            uses: actions/checkout@v3
          - name: install dependencies
-           run: npm installo66o                   
+           run: npm install                  
          - name: Run tests
            run: npx cypress run
          - name: Generate Allure Report
