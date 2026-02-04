@@ -35,7 +35,8 @@ describe('Registration Page UI Tests', () => {
     const uniqueEmail = `valid_user_${Date.now()}@example.com`;
     RegisterPage.clickRegisterButton();
     RegisterPage.register(this.registerData.validUser.name, uniqueEmail, this.registerData.validUser.password, this.registerData.validUser.confirmPassword);
-    RegisterPage.pageElements.successMessage().should('be.visible').and('contain', 'Registered successfully');
+    // Assert redirection to login page
+    cy.url().should('include', '/login');
   });
   it('Verify registration with mismatched passwords', function () {
     RegisterPage.clickRegisterButton();
